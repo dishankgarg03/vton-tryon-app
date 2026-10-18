@@ -12,6 +12,8 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.OkHttpClient
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
@@ -76,7 +78,17 @@ class TryOnViewModel : ViewModel() {
                         _uiState.value = TryOnUiState.Error(body.error ?: "AI inference failed.")
                     }
                 } else {
-                    _uiState.value = TryOnUiState.Error("Server error: ${response.code()}")
+                    val errorBody = response.errorBody()?.string()
+                    val serverMessage = errorBody?.let { body ->
+                        try {
+                            JSONObject(body).optString("detail").takeIf { it.isNotBlank() } ?: body
+                        } catch (_: JSONException) {
+                            body
+                        }
+                    }
+                    val message = serverMessage?.let { "Server error: ${response.code()} - $it" }
+                        ?: "Server error: ${response.code()}"
+                    _uiState.value = TryOnUiState.Error(message)
                 }
             } catch (e: Exception) {
                 _uiState.value = TryOnUiState.Error(e.localizedMessage ?: "Network connection failed.")
