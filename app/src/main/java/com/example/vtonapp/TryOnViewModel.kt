@@ -26,7 +26,7 @@ sealed interface TryOnUiState {
 }
 
 class TryOnViewModel : ViewModel() {
-
+    private val TUNNEL_URL = "https://probe-landfall-pasta.ngrok-free.dev/"
     private val _uiState = MutableStateFlow<TryOnUiState>(TryOnUiState.Idle)
     val uiState: StateFlow<TryOnUiState> = _uiState.asStateFlow()
 
