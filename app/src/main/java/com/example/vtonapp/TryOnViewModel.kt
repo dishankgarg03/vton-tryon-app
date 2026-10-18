@@ -30,8 +30,6 @@ class TryOnViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<TryOnUiState>(TryOnUiState.Idle)
     val uiState: StateFlow<TryOnUiState> = _uiState.asStateFlow()
 
-    // ⚠️ REPLACE THIS EXACTLY WITH THE GENERATED LOCALTUNNEL URL FROM COLAB EVERY SESSION
-    private val TUNNEL_URL = "https://localtunnel.me" 
     private val BASE_URL = if (TUNNEL_URL.endsWith("/")) TUNNEL_URL else "$TUNNEL_URL/"
 
     private val okHttpClient = OkHttpClient.Builder()
