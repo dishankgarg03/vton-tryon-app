@@ -18,13 +18,14 @@ jobs:
       with:
         distribution: 'zulu'
         java-version: '17'
-        cache: 'gradle'
 
-    - name: Grant Execute Permission to Gradle Compiler
-      run: chmod +x gradlew
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.6'
 
     - name: Compile Photorealistic Try-On App (Build APK)
-      run: ./gradlew assembleDebug
+      run: gradle assembleDebug
 
     - name: Upload Finished APK Installer to Cloud
       uses: actions/upload-artifact@v4
