@@ -36,9 +36,9 @@ class TryOnViewModel : ViewModel() {
 
     private val okHttpClient = OkHttpClient.Builder()
         .connectTimeout(60, TimeUnit.SECONDS)
-        .readTimeout(10, TimeUnit.MINUTES)
+        .readTimeout(20, TimeUnit.MINUTES)
         .writeTimeout(5, TimeUnit.MINUTES)
-        .callTimeout(10, TimeUnit.MINUTES)
+        .callTimeout(20, TimeUnit.MINUTES)
         .build()
 
     private val apiService: TryOnApiService by lazy {
